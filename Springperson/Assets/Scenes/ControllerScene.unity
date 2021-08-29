@@ -952,9 +952,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 10
   springSpd: 2
-  springJumpForce: 100
   fwdPt: {fileID: 343129530}
   playerRb: {fileID: 2054014670}
+  springJumpForce: 100
+  enemyRecoilForce: 5
+  wallJumpForce: 10
+  enemyUpwardMod: 1
+  enemyHitForce: 10
   springEnd: {fileID: 1827605442}
 --- !u!1 &1630502919
 GameObject:
@@ -1108,7 +1112,6 @@ GameObject:
   - component: {fileID: 1827605443}
   - component: {fileID: 1827605446}
   - component: {fileID: 1827605445}
-  - component: {fileID: 1827605447}
   - component: {fileID: 1827605444}
   m_Layer: 0
   m_Name: Cylinder
@@ -1195,21 +1198,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827605442}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1827605447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1827605442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e437bbe72a4130c46817ad05bd7840b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  springJumpForce: 50
-  playerRb: {fileID: 2054014670}
-  gun: {fileID: 750043277}
 --- !u!1 &1946174344
 GameObject:
   m_ObjectHideFlags: 0

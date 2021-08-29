@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [Header("Spring Force Constants")]
     [SerializeField] float range;
     [SerializeField] float springSpd;
-    [SerializeField] float springJumpForce;
 
     [SerializeField] Transform fwdPt;
     [SerializeField] Rigidbody playerRb;
     Camera cam;
+
+    [Header("Spring Force Constants")]
+    [SerializeField] float springJumpForce = 100f; // jump force when player shoots ground
+    [SerializeField] float enemyRecoilForce = 5f; // blow back force when player shoots an enemy
+    [SerializeField] float wallJumpForce = 10f; // blow back force when player shoots wall
+    [SerializeField] float enemyUpwardMod = 1f; //modifies the amount of updward force applied to enemies from spring
+    [SerializeField] float enemyHitForce = 10f; // force applied to enemies when colliding with spring
     public GameObject springEnd;
     Coroutine extension = null;
     
@@ -53,6 +60,17 @@ public class Weapon : MonoBehaviour
                     case "ground":
                     playerRb.AddForce(dir * springJumpForce, ForceMode.Impulse);
                     break;
+
+                    case "enemy":
+                    playerRb.AddForce(dir * enemyRecoilForce, ForceMode.Impulse);
+                    Rigidbody enemyRb = hit.collider.GetComponent<Rigidbody>();
+                    Vector3 enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
+                    enemyRb.AddForce(enemyDir * enemyHitForce, ForceMode.Impulse);
+                    break;
+
+                    case "wall":
+                    playerRb.AddForce(dir * wallJumpForce, ForceMode.Impulse);
+                    break;
                 }
 
                 Debug.Log("Jump");
@@ -63,6 +81,7 @@ public class Weapon : MonoBehaviour
                 break;
             }
             else{
+                
                 springEnd.transform.localPosition = startPos + Vector3.forward * d;
                 yield return null;
             }
