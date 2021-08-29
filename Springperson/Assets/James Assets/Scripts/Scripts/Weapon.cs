@@ -34,7 +34,7 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.DrawRay(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, Color.red, 0.2f);
+        Debug.DrawRay(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, Color.red, 0.2f);
         if(Input.GetMouseButtonDown(0) && extension == null){
             extension = StartCoroutine(Extend(springSpd, range));
         }
@@ -57,21 +57,18 @@ public class Weapon : MonoBehaviour
                 time = period/4;
 
                 switch(hit.collider.tag){
-                    case "Ground":
+                    case "ground":
                     playerRb.AddForce(dir * springJumpForce, ForceMode.Impulse);
                     break;
 
-                    case "Enemy":
+                    case "enemy":
                     playerRb.AddForce(dir * enemyRecoilForce, ForceMode.Impulse);
                     Rigidbody enemyRb = hit.collider.GetComponent<Rigidbody>();
                     Vector3 enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
                     enemyRb.AddForce(enemyDir * enemyHitForce, ForceMode.Impulse);
-
-                    //[Jack] just letting the enemy know they have been hit and start the ragdoll
-                    hit.collider.GetComponent<EnemyFollow>().TurnOnRagdoll();
                     break;
 
-                    case "Wall":
+                    case "wall":
                     playerRb.AddForce(dir * wallJumpForce, ForceMode.Impulse);
                     break;
                 }
