@@ -34,7 +34,7 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.DrawRay(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, Color.red, 0.2f);
+        Debug.DrawRay(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, Color.red, 0.2f);
         if(Input.GetMouseButtonDown(0) && extension == null){
             extension = StartCoroutine(Extend(springSpd, range));
         }
