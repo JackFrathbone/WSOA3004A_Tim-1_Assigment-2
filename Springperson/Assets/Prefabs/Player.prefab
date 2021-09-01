@@ -65,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   moveMultiplier: 10
+  airMoveMultiplier: 5
   mouseSensitivity: 5
   groundDrag: 6
   airDrag: 1
@@ -144,7 +145,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: dd7159c52cc2b2a41b02eecec7289975, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -242,6 +243,7 @@ Transform:
   m_LocalScale: {x: 1.5133635, y: 0.0013279426, z: 2.2222724}
   m_Children:
   - {fileID: 20531515307262395}
+  - {fileID: 4270064908928821525}
   m_Father: {fileID: 20531514575278962}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -272,7 +274,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 5d014ca53ea7aea41ab22db204cd750f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -352,16 +354,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfd80079b8e535b44ade85f4b2b09f26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 0
-  springSpd: 0
-  fwdPt: {fileID: 0}
-  playerRb: {fileID: 0}
+  range: 5
+  springSpd: 1
+  fwdPt: {fileID: 20531515307262395}
+  backPt: {fileID: 4270064908928821525}
+  playerRb: {fileID: 20531513527990991}
   springJumpForce: 100
   enemyRecoilForce: 5
   wallJumpForce: 10
   enemyUpwardMod: 1
   enemyHitForce: 10
-  springEnd: {fileID: 0}
+  springEnd: {fileID: 20531513821738947}
 --- !u!1 &20531514182960089
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,7 +441,7 @@ GameObject:
   - component: {fileID: 20531514636438303}
   - component: {fileID: 20531514636438300}
   - component: {fileID: 20531514636438301}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +489,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 1c456090f5fe8b34290b9b8d0998599d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -564,7 +567,7 @@ GameObject:
   - component: {fileID: 20531515067201795}
   - component: {fileID: 20531515067201792}
   - component: {fileID: 20531515067201793}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -612,7 +615,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 1c456090f5fe8b34290b9b8d0998599d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -761,3 +764,33 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20531515534548848}
   m_Enabled: 1
+--- !u!1 &5238566346327662256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4270064908928821525}
+  m_Layer: 0
+  m_Name: backward point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4270064908928821525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5238566346327662256}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -112, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 20531513821738946}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

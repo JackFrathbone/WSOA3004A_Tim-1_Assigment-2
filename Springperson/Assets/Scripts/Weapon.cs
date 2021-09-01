@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] float springSpd;
 
     [SerializeField] Transform fwdPt;
+    [SerializeField] Transform backPt;
     [SerializeField] Rigidbody playerRb;
     Camera cam;
 
@@ -50,11 +51,12 @@ public class Weapon : MonoBehaviour
             Debug.Log(amplitude);
             RaycastHit hit;
             
-            if(Physics.Raycast(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, out hit, 0.1f) && !collided){
+            if(Physics.Raycast(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, out hit, (fwdPt.position - backPt.position).magnitude) && !collided){
                 collided = true;
                 Vector3 dir = -(hit.point - springEnd.transform.position).normalized;
                 amplitude = (springEnd.transform.position - startPos).magnitude;
                 time = period/4;
+                Debug.Log("there has been a collision " + hit.point);
 
                 switch(hit.collider.tag){
                     case "Ground":
