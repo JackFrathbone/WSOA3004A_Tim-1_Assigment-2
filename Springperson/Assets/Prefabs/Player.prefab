@@ -223,9 +223,10 @@ GameObject:
   - component: {fileID: 20531513821738946}
   - component: {fileID: 20531513821738951}
   - component: {fileID: 20531513821738948}
-  - component: {fileID: 20531513821738949}
+  - component: {fileID: 1020520394714249442}
+  - component: {fileID: 4295386675415759022}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Spring End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,8 +297,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &20531513821738949
-MeshCollider:
+--- !u!135 &1020520394714249442
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -306,10 +307,29 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Radius: 0.51597977
+  m_Center: {x: -0.000000007665649, y: -125.405106, z: -0.00000000772323}
+--- !u!114 &4295386675415759022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20531513821738947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1de52b5dee6db649ad0afcaa0db8e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 9216956615121807736}
+  playerRb: {fileID: 20531513527990991}
+  springJumpForce: 100
+  enemyRecoilForce: 5
+  wallJumpForce: 10
+  enemyUpwardMod: 1
+  enemyHitForce: 10
+  back: {fileID: 4270064908928821525}
 --- !u!1 &20531514033914052
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,8 +383,14 @@ MonoBehaviour:
   enemyRecoilForce: 5
   wallJumpForce: 10
   enemyUpwardMod: 1
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
   enemyHitForce: 10
   springEnd: {fileID: 20531513821738947}
+  collTag: 
+  collided: 0
+  sphereCastOffset: {x: 0, y: 1, z: 0}
 --- !u!1 &20531514182960089
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +468,7 @@ GameObject:
   - component: {fileID: 20531514636438300}
   - component: {fileID: 20531514636438301}
   m_Layer: 2
-  m_Name: Cube
+  m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

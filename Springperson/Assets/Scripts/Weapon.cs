@@ -18,71 +18,58 @@ public class Weapon : MonoBehaviour
     [SerializeField] float enemyRecoilForce = 5f; // blow back force when player shoots an enemy
     [SerializeField] float wallJumpForce = 10f; // blow back force when player shoots wall
     [SerializeField] float enemyUpwardMod = 1f; //modifies the amount of updward force applied to enemies from spring
+    [SerializeField] LayerMask hitLayers;
     [SerializeField] float enemyHitForce = 10f; // force applied to enemies when colliding with spring
     public GameObject springEnd;
+
+    public bool fired = false;
+    public bool collided = false;
     Coroutine extension = null;
+    [SerializeField] Vector3 sphereCastOffset = new Vector3(0,1,0);
     
 
     // Start is called before the first frame update
     void Start()
     {
-        
-
-        
-        
+        collided = false;
+        fired = false;
+  
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         //Debug.DrawRay(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, Color.red, 0.2f);
         if(Input.GetMouseButtonDown(0) && extension == null){
             extension = StartCoroutine(Extend(springSpd, range));
         }
     }
+
+    
     IEnumerator Extend(float period, float amplitude){
+        fired = true;
         float w = (1/period) * 2 * Mathf.PI;
         float time = 0;
         Vector3 startPos = springEnd.transform.localPosition;
-        bool collided = false;
+        collided = false;
         while(true){
             time += Time.deltaTime;
             float d = Mathf.Abs(amplitude * Mathf.Sin(w * time));
             Debug.Log(amplitude);
-            RaycastHit hit;
             
-            if(Physics.Raycast(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, out hit, (fwdPt.position - backPt.position).magnitude) && !collided){
-                collided = true;
-                Vector3 dir = -(hit.point - springEnd.transform.position).normalized;
+            if(collided){
+                fired = false;
+                collided = false;
                 amplitude = (springEnd.transform.position - startPos).magnitude;
                 time = period/4;
-                Debug.Log("there has been a collision " + hit.point);
-
-                switch(hit.collider.tag){
-                    case "Ground":
-                    playerRb.AddForce(dir * springJumpForce, ForceMode.Impulse);
-                    break;
-
-                    case "Enemy":
-                    playerRb.AddForce(dir * enemyRecoilForce, ForceMode.Impulse);
-                    Rigidbody enemyRb = hit.collider.GetComponent<Rigidbody>();
-                    Vector3 enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
-                    enemyRb.AddForce(enemyDir * enemyHitForce, ForceMode.Impulse);
-
-                    //[Jack] just letting the enemy know they have been hit and start the ragdoll
-                    hit.collider.GetComponent<EnemyFollow>().TurnOnRagdoll();
-                    break;
-
-                    case "Wall":
-                    playerRb.AddForce(dir * wallJumpForce, ForceMode.Impulse);
-                    break;
-                }
-
                 Debug.Log("Jump");
             }
             if(time >= period/2 || d < 0.1f){
                 springEnd.transform.localPosition = startPos;
                 extension = null;
+                
+                
                 break;
             }
             else{
