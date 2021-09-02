@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour
     
     [SerializeField] float sensX;
     [SerializeField] float sensY;
+    [SerializeField] Transform orientation;
     Camera cam;
     float mouseX;
     float mouseY;
@@ -26,8 +27,8 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         myInput();
-        cam.transform.localRotation = Quaternion.Euler(xRot, 0, 0);
-        transform.rotation = Quaternion.Euler(0, yRot, 0);
+        cam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0);
+        orientation.transform.rotation = Quaternion.Euler(0, yRot, 0);
     }
     void myInput(){
         mouseX = Input.GetAxisRaw("Mouse X");

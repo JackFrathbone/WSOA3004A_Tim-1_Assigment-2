@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float airMoveMultiplier = 5f;
     [SerializeField] public float mouseSensitivity = 5f;
     [SerializeField] float groundDrag = 6f;
+    [SerializeField] Transform orientation;
     
     float horzMovement;
     float vertMovement;
@@ -70,7 +71,7 @@ public class PlayerController : MonoBehaviour
     void myInput(){
         horzMovement = Input.GetAxisRaw("Horizontal");
         vertMovement = Input.GetAxisRaw("Vertical");
-        moveDirection = (transform.forward * vertMovement) + (transform.right * horzMovement);
+        moveDirection = (orientation.transform.forward * vertMovement) + (orientation.transform.right * horzMovement);
 
     }
 

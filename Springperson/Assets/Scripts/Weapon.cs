@@ -11,15 +11,8 @@ public class Weapon : MonoBehaviour
     [SerializeField] Transform fwdPt;
     [SerializeField] Transform backPt;
     [SerializeField] Rigidbody playerRb;
-    Camera cam;
 
     [Header("Spring Force Constants")]
-    [SerializeField] float springJumpForce = 100f; // jump force when player shoots ground
-    [SerializeField] float enemyRecoilForce = 5f; // blow back force when player shoots an enemy
-    [SerializeField] float wallJumpForce = 10f; // blow back force when player shoots wall
-    [SerializeField] float enemyUpwardMod = 1f; //modifies the amount of updward force applied to enemies from spring
-    [SerializeField] LayerMask hitLayers;
-    [SerializeField] float enemyHitForce = 10f; // force applied to enemies when colliding with spring
     public GameObject springEnd;
 
     public bool fired = false;
