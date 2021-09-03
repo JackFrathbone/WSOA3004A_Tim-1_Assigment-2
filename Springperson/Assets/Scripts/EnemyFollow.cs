@@ -8,8 +8,11 @@ public class EnemyFollow : MonoBehaviour
     private Rigidbody _rb;
     private NavMeshAgent _navMeshAgent;
 
+    private GameManager _gameManager;
+
     private void Start()
     {
+        _gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _rb = GetComponent<Rigidbody>();
@@ -41,8 +44,17 @@ public class EnemyFollow : MonoBehaviour
     {
         if(other.tag == "Hole")
         {
+            _gameManager.AddToScoreTotal(100);
             StopAllCoroutines();
             Destroy(gameObject, 5f);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            _gameManager.PlayerLoseHealth();
         }
     }
 

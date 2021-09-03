@@ -15,8 +15,11 @@ public class CameraController : MonoBehaviour
 
     float xRot;
     float yRot;
+
+    private bool _CameraEnabled = true;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         cam = GetComponentInChildren<Camera>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -24,13 +27,17 @@ public class CameraController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        myInput();
-        cam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0);
-        orientation.transform.rotation = Quaternion.Euler(0, yRot, 0);
+        if (_CameraEnabled)
+        {
+            myInput();
+            cam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0);
+            orientation.transform.rotation = Quaternion.Euler(0, yRot, 0);
+        }
     }
-    void myInput(){
+
+    private void myInput(){
         mouseX = Input.GetAxisRaw("Mouse X");
         mouseY = Input.GetAxisRaw("Mouse Y");
 
@@ -38,5 +45,19 @@ public class CameraController : MonoBehaviour
         xRot -= mouseY * sensY * multiplier;
 
         xRot = Mathf.Clamp(xRot, -90f, 90f);
+    }
+
+    public void DisableCameraControl()
+    {
+        _CameraEnabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public void EnableCameraControl()
+    {
+        _CameraEnabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

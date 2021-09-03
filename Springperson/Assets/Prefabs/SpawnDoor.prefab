@@ -141,5 +141,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 8458781814643003700, guid: 72d978b867eb5a147927457c132b4953, type: 3}
   spawnPoint: {fileID: 6423729703110476580}
-  randomMin: 15
-  randomMax: 35
+  randomMin: 5
+  randomMax: 15
