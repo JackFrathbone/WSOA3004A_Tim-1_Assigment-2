@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour
 
     public bool fired = false;
     public bool collided = false;
+    float velocity;
     Coroutine extension = null;
     [SerializeField] Vector3 sphereCastOffset = new Vector3(0,1,0);
     
@@ -39,9 +40,22 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    
+    public bool getCollided(){
+        return collided;
+    }
+    public bool getFired(){
+        return fired;
+    }
+    public float getVelocity(){
+        return velocity;
+    }
+
+    public void setCollided(bool coll){
+        collided = coll;
+    }
     IEnumerator Extend(float period, float amplitude){
         fired = true;
+        SoundBoard.instance.SpringSound();
         float w = (1/period) * 2 * Mathf.PI;
         float time = 0;
         Vector3 startPos = springEnd.transform.localPosition;
@@ -49,21 +63,23 @@ public class Weapon : MonoBehaviour
         while(true){
             time += Time.deltaTime;
             float d = Mathf.Abs(amplitude * Mathf.Sin(w * time));
+            velocity = Mathf.Cos(w * time);
             Debug.Log(amplitude);
-            
-            if(collided){
+            if(time >= period/2 || d < 0.1f){
+                springEnd.transform.localPosition = startPos;
+                extension = null;
+                fired = false;
+                velocity = 0;
+                
+                break;
+            }
+            else if(collided){
                 fired = false;
                 collided = false;
                 amplitude = (springEnd.transform.position - startPos).magnitude;
                 time = period/4;
                 Debug.Log("Jump");
-            }
-            if(time >= period/2 || d < 0.1f){
-                springEnd.transform.localPosition = startPos;
-                extension = null;
-                
-                
-                break;
+                yield return null;
             }
             else{
                 

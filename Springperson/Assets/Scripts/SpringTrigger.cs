@@ -11,11 +11,18 @@ public class SpringTrigger : MonoBehaviour
     [SerializeField] float wallJumpForce = 10f; // blow back force when player shoots wall
     [SerializeField] float enemyUpwardMod = 1f; //modifies the amount of updward force applied to enemies from spring
     [SerializeField] float enemyHitForce = 10f; // force applied to enemies when colliding with spring
+    [SerializeField] float minEnemyhitForce = 3f; // minimum force to be applied to enemy (must be lower than enemy hit force)
     [SerializeField] Transform back;
+
+
+    float enemyHitDiff;
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(enemyHitForce < minEnemyhitForce){
+            Debug.Log("enemy hit force higher than minimum");
+        }
+        enemyHitDiff = enemyHitForce - minEnemyhitForce;
     }
 
     // Update is called once per frame
@@ -32,28 +39,28 @@ public class SpringTrigger : MonoBehaviour
         Debug.Log("trigger enter");
         Vector3 dir = -(transform.position - back.position).normalized;
         
-        if(weapon.fired){
+        if(weapon.getFired() && weapon.getVelocity() > 0){
             switch(other.tag){
                     case "Ground":
-                    weapon.collided = true;
+                    weapon.setCollided(true);
                     playerRb.AddForce(dir * springJumpForce, ForceMode.Impulse);
                     break;
 
                     case "Enemy":
                     weapon.collided = true;
+                    SoundBoard.instance.EnemyHitSound();
                     //[Jack] just letting the enemy know they have been hit and start the ragdoll
                     other.GetComponent<EnemyFollow>().TurnOnRagdoll();
                     playerRb.AddForce(dir * enemyRecoilForce, ForceMode.Impulse);
                     Rigidbody enemyRb = other.GetComponent<Rigidbody>();
                     Vector3 enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
-                    enemyRb.AddForce(enemyDir * enemyHitForce, ForceMode.Impulse);
-
+                    enemyRb.AddForce(enemyDir * (minEnemyhitForce + (enemyHitDiff*weapon.getVelocity())), ForceMode.Impulse);
+                    weapon.setCollided(true);
                     
                     break;
 
                     case "Wall":
-                    weapon.collided = true;
-                    weapon.collided = true;
+                    weapon.setCollided(true);
                     playerRb.AddForce(dir * wallJumpForce, ForceMode.Impulse);
                     break;
                 }
