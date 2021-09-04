@@ -60,8 +60,9 @@ public class Weapon : MonoBehaviour
         float time = 0;
         Vector3 startPos = springEnd.transform.localPosition;
         collided = false;
+        velocity = 0;
         while(true){
-            time += Time.deltaTime;
+            time += Time.fixedDeltaTime;
             float d = Mathf.Abs(amplitude * Mathf.Sin(w * time));
             velocity = Mathf.Cos(w * time);
             Debug.Log(amplitude);
@@ -78,13 +79,14 @@ public class Weapon : MonoBehaviour
                 collided = false;
                 amplitude = (springEnd.transform.position - startPos).magnitude;
                 time = period/4;
+                springEnd.transform.localPosition = startPos + Vector3.forward * d;
                 Debug.Log("Jump");
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             else{
                 
                 springEnd.transform.localPosition = startPos + Vector3.forward * d;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
         }
 
