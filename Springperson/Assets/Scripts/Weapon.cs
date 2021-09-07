@@ -79,6 +79,7 @@ public class Weapon : MonoBehaviour
                 collided = false;
                 amplitude = (springEnd.transform.position - startPos).magnitude;
                 time = period/4;
+                d = Mathf.Abs(amplitude * Mathf.Sin(w * time));
                 springEnd.transform.localPosition = startPos + Vector3.forward * d;
                 Debug.Log("Jump");
                 yield return new WaitForFixedUpdate();

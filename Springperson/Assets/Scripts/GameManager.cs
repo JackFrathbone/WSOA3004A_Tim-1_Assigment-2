@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     public int playerScore;
 
@@ -23,6 +23,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] CameraController cameraController;
 
+    bool isInvincible;
+
+    public bool IsInvincible { get => isInvincible; set => isInvincible = value; }
+
+    void Start()
+    {
+        isInvincible = true;
+    }
     public void AddToScoreTotal(int i)
     {
         playerScore += i;

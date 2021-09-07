@@ -10,7 +10,7 @@ public class SpringTrigger : MonoBehaviour
     [SerializeField] float enemyRecoilForce = 5f; // blow back force when player shoots an enemy
     [SerializeField] float wallJumpForce = 10f; // blow back force when player shoots wall
     [SerializeField] float enemyUpwardMod = 1f; //modifies the amount of updward force applied to enemies from spring
-    [SerializeField] float enemyHitForce = 10f; // force applied to enemies when colliding with spring
+    [SerializeField] float maxEnemyHitForce = 10f; // force applied to enemies when colliding with spring
     [SerializeField] float minEnemyhitForce = 3f; // minimum force to be applied to enemy (must be lower than enemy hit force)
     [SerializeField] Transform back;
 
@@ -19,10 +19,10 @@ public class SpringTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(enemyHitForce < minEnemyhitForce){
+        if(maxEnemyHitForce < minEnemyhitForce){
             Debug.Log("enemy hit force higher than minimum");
         }
-        enemyHitDiff = enemyHitForce - minEnemyhitForce;
+        enemyHitDiff = maxEnemyHitForce - minEnemyhitForce;
     }
 
     // Update is called once per frame

@@ -23,9 +23,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float airDrag = 2f;
     [SerializeField] float playerHeight = 2f;
     [SerializeField] float jumpForce = 10f;
+    [Range(0, 1)] [SerializeField] float AirMoveNerf;
     bool isGrounded;
     RaycastHit slopeHit;
-
+    Vector3 lastVelocity;
 
     Rigidbody rb;
     // Start is called before the first frame update
@@ -39,7 +40,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
        isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.1f);
+       if(rb.velocity.magnitude > 0){
+           lastVelocity = rb.velocity;
+       }
        ControlDrag();
        if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
            Jump();
@@ -48,6 +54,9 @@ public class PlayerController : MonoBehaviour
        slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
     }
 
+    public Vector3 getLastVelocity(){
+        return lastVelocity;
+    }
     void ControlDrag(){
         if(isGrounded){
             rb.drag = groundDrag;
@@ -77,6 +86,9 @@ public class PlayerController : MonoBehaviour
 
     public void Jump(){
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Vector3 velocity = rb.velocity;
+        velocity *= AirMoveNerf;
+        rb.velocity = velocity;
     }
     private void FixedUpdate() {
         Move();
