@@ -3,13 +3,12 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject enemyPrefabBasic;
+    [SerializeField] GameObject enemyPrefabRanged;
     [SerializeField] Transform spawnPoint;
 
     [SerializeField] float randomMin = 3f;
     [SerializeField] float randomMax = 10f;
-
-    private GameObject currentSpawn;
 
     private void Start()
     {
@@ -19,9 +18,18 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator WaitAndSpawn()
     {
         yield return new WaitForSeconds(Random.Range(randomMin, randomMax));
-        if (currentSpawn == null)
+        if (GameManager.instance.currentEnemy < GameManager.instance.totalEnemy)
         {
-            currentSpawn = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+            int ranNum = Random.Range(0, 101);
+            if(ranNum >= 50)
+            {
+                Instantiate(enemyPrefabBasic, spawnPoint.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(enemyPrefabRanged, spawnPoint.position, Quaternion.identity);
+            }
+
         }
         StartCoroutine(WaitAndSpawn());
     }

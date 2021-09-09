@@ -8,11 +8,8 @@ public class EnemyFollow : MonoBehaviour
     private Rigidbody _rb;
     private NavMeshAgent _navMeshAgent;
 
-    private GameManager _gameManager;
-
     private void Start()
     {
-        _gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _rb = GetComponent<Rigidbody>();
@@ -20,7 +17,7 @@ public class EnemyFollow : MonoBehaviour
 
     void Update()
     {
-        if(_navMeshAgent.enabled == true && _navMeshAgent.isOnNavMesh)
+        if (_navMeshAgent.enabled == true && _navMeshAgent.isOnNavMesh)
         {
             _navMeshAgent.SetDestination(_player.transform.position);
         }
@@ -42,11 +39,11 @@ public class EnemyFollow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Hole")
+        if (other.tag == "Hole")
         {
-            _gameManager.AddToScoreTotal(100);
+            GameManager.instance.AddToScoreTotal(100);
             StopAllCoroutines();
-            Destroy(gameObject, 5f);
+            Destroy(gameObject, 2f);
         }
     }
 
@@ -54,13 +51,21 @@ public class EnemyFollow : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            _gameManager.PlayerLoseHealth();
+            GameManager.instance.PlayerLoseHealth();
         }
     }
 
     IEnumerator WaitToGetUp()
     {
-        yield return new WaitForSeconds(5f);
-        TurnOffRagdoll();
+        yield return new WaitForSeconds(3f);
+
+        if(_rb.velocity.magnitude < 0.5f)
+        {
+            TurnOffRagdoll();
+        }
+        else
+        {
+            StartCoroutine(WaitToGetUp());
+        }
     }
 }

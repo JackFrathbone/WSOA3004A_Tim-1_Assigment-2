@@ -105,5 +105,18 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Hole")
+        {
+            GameManager.instance.EndLevel();
+        }
+        else if(other.tag == "Projectile")
+        {
+            Destroy(other.gameObject);
+            GameManager.instance.PlayerLoseHealth();
+        }
+    }
+
 }

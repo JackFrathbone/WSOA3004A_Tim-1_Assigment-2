@@ -50,7 +50,14 @@ public class SpringTrigger : MonoBehaviour
                     weapon.collided = true;
                     SoundBoard.instance.EnemyHitSound();
                     //[Jack] just letting the enemy know they have been hit and start the ragdoll
-                    other.GetComponent<EnemyFollow>().TurnOnRagdoll();
+                    if(other.GetComponent<EnemyFollow>() != null)
+                    {
+                        other.GetComponent<EnemyFollow>().TurnOnRagdoll();
+                    } else if(other.GetComponent<EnemyRanged>() != null)
+                    {
+                        other.GetComponent<EnemyRanged>().TurnOnRagdoll();
+                    }
+              
                     playerRb.AddForce(dir * enemyRecoilForce, ForceMode.Impulse);
                     Rigidbody enemyRb = other.GetComponent<Rigidbody>();
                     Vector3 enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);

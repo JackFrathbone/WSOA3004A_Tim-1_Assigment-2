@@ -7,6 +7,10 @@ public class GameManager : Singleton<GameManager>
 {
     public int playerScore;
 
+    //This number is used to stop more than x amount of enemies being on the map at once
+    public int totalEnemy;
+    public int currentEnemy;
+
     private int _playerHealth = 3;
     private bool _playerCanBeDamaged = true;
 
