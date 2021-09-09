@@ -41,6 +41,7 @@ public class EnemyRanged : MonoBehaviour
             _navMeshAgent.isStopped = true;
             _navMeshAgent.velocity = Vector3.zero;
             _navMeshAgent.SetDestination(transform.position);
+            transform.LookAt(_player.transform);
         }
 
         if (Physics.Linecast(transform.position, _player.transform.position, out RaycastHit hitInfo))

@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -18,7 +19,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] int playerNoDamageTime;
 
     [SerializeField] PlayerScoreDisplay scoreDisplay;
-    [SerializeField] GameObject health1, health2, health3;
+    [SerializeField] Image health1, health2, health3;
     [SerializeField] TextMeshProUGUI scoreText;
 
     [SerializeField] GameObject restartScreen;
@@ -53,26 +54,26 @@ public class GameManager : Singleton<GameManager>
             switch (_playerHealth)
             {
                 case 0:
-                    health1.SetActive(false);
-                    health2.SetActive(false);
-                    health3.SetActive(false);
+                    health1.enabled = false;
+                    health2.enabled = false;
+                    health3.enabled = false;
                     EndLevel();
                     break;
                 case 1:
-                    health1.SetActive(true);
-                    health2.SetActive(false);
-                    health3.SetActive(false);
+                    health1.enabled = true;
+                    health2.enabled = false;
+                    health3.enabled = false;
                     break;
 
                 case 2:
-                    health1.SetActive(true);
-                    health2.SetActive(true);
-                    health3.SetActive(false);
+                    health1.enabled = true;
+                    health2.enabled = true;
+                    health3.enabled = false;
                     break;
                 case 3:
-                    health1.SetActive(true);
-                    health2.SetActive(true);
-                    health3.SetActive(true);
+                    health1.enabled = true;
+                    health2.enabled = true;
+                    health3.enabled = true;
                     break;
                 default:
                     Debug.Log("The player health number is outside its range, you fucked up");
@@ -91,20 +92,20 @@ public class GameManager : Singleton<GameManager>
         switch (_playerHealth)
         {
             case 1:
-                health1.SetActive(true);
-                health2.SetActive(false);
-                health3.SetActive(false);
+                health1.enabled = true;
+                health2.enabled = false;
+                health3.enabled = false;
                 break;
 
             case 2:
-                health1.SetActive(true);
-                health2.SetActive(true);
-                health3.SetActive(false);
+                health1.enabled = true;
+                health2.enabled = true;
+                health3.enabled = false;
                 break;
             case 3:
-                health1.SetActive(true);
-                health2.SetActive(true);
-                health3.SetActive(true);
+                health1.enabled = true;
+                health2.enabled = true;
+                health3.enabled = true;
                 break;
             default:
                 Debug.Log("The player health number is outside its range, you fucked up");
