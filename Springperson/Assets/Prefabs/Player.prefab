@@ -354,8 +354,8 @@ MonoBehaviour:
   enemyRecoilForce: 15
   wallJumpForce: 10
   enemyUpwardMod: 1
-  maxEnemyHitForce: 15
-  minEnemyhitForce: 15
+  maxEnemyHitForce: 10
+  minEnemyhitForce: 10
   back: {fileID: 4270064908928821525}
   player: {fileID: 0}
 --- !u!1 &20531514033914052
@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 4643814567962566264}
   m_Layer: 0
   m_Name: EnemyTrigger
-  m_TagString: Damage
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
