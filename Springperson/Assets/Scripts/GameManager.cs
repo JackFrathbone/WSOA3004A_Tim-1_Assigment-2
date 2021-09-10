@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;  
 
 public class GameManager : Singleton<GameManager>
 {
@@ -17,11 +18,18 @@ public class GameManager : Singleton<GameManager>
 
     //Determines the player invulnerability time after taking damage
     [SerializeField] int playerNoDamageTime;
-
+    [SerializeField] DamageIndicator damageIndicator;
     [SerializeField] PlayerScoreDisplay scoreDisplay;
     [SerializeField] Image health1, health2, health3;
-    [SerializeField] TextMeshProUGUI scoreText;
+    
+    
 
+    [SerializeField] int maxHearts;
+    List<Image> _hearts = new List<Image>();
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] Image heartImage;
+
+    [SerializeField] GameObject healthDisplay;
     [SerializeField] GameObject restartScreen;
     [SerializeField] TextMeshProUGUI endScoreText;
     [SerializeField] TextMeshProUGUI highscoreText;
@@ -29,16 +37,21 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] CameraController cameraController;
 
     bool isInvincible;
+    bool gameOver;
 
     public bool IsInvincible { get => isInvincible; set => isInvincible = value; }
+    public bool GameOver { get => gameOver; set => gameOver = value; }
+    public int PlayerHealth { get => _playerHealth; set => _playerHealth = value; }
 
     void Start()
     {
-        isInvincible = true;
+        //isInvincible = true;
+        gameOver = false;
     }
     public void AddToScoreTotal(int i)
     {
         playerScore += i;
+        SoundBoard.instance.ScoreUp();
         scoreDisplay.ShowScore(i);
         scoreText.text = "Score: " + playerScore.ToString();
     }
@@ -48,9 +61,9 @@ public class GameManager : Singleton<GameManager>
         if (_playerCanBeDamaged)
         {
             StartCoroutine(PlayerNoDamagePeriod());
-
+            SoundBoard.instance.DamageSound();
             _playerHealth--;
-
+            damageIndicator.Damage();
             switch (_playerHealth)
             {
                 case 0:
@@ -88,7 +101,8 @@ public class GameManager : Singleton<GameManager>
     public void PlayerAddHealth()
     {
         _playerHealth++;
-
+        damageIndicator.GainHealth();
+        SoundBoard.instance.HealSound();
         switch (_playerHealth)
         {
             case 1:
@@ -115,6 +129,8 @@ public class GameManager : Singleton<GameManager>
 
     public void EndLevel()
     {
+        SoundBoard.instance.DeathSound();
+        gameOver = true;
         restartScreen.SetActive(true);
         endScoreText.text = playerScore.ToString();
         cameraController.DisableCameraControl();

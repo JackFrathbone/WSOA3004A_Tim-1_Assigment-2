@@ -12,6 +12,9 @@ public class EnemyRanged : MonoBehaviour
 
     private bool _canFire = true;
 
+    bool _ragdoll;
+
+    [SerializeField] float projectileForce = 10f;
     [SerializeField] Transform projectileParent;
     [SerializeField] GameObject projectilePrefab;
 
@@ -70,6 +73,7 @@ public class EnemyRanged : MonoBehaviour
         _rb.isKinematic = false;
         _navMeshAgent.enabled = false;
         _canFire = false;
+        _ragdoll = true;
     }
 
     private void TurnOffRagdoll()
@@ -77,24 +81,41 @@ public class EnemyRanged : MonoBehaviour
         _rb.isKinematic = true;
         _navMeshAgent.enabled = true;
         _canFire = true;
+        _ragdoll = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Hole")
-        {
-            GameManager.instance.AddToScoreTotal(200);
-            StopAllCoroutines();
-            Destroy(gameObject, 2f);
+        
+        switch(other.tag){
+            case "Hole":
+                GameManager.instance.AddToScoreTotal(200);
+                StopAllCoroutines();
+                Destroy(gameObject);
+            break;
+            case "Projectile":
+                Rigidbody projRb = other.gameObject.GetComponent<Rigidbody>();
+                Projectile proj = other.gameObject.GetComponent<Projectile>();
+                if(proj.Reversed){
+                    TurnOnRagdoll();
+                    SoundBoard.instance.EnemyHitSound();
+                    _rb.AddForce(projRb.velocity.normalized * projectileForce, ForceMode.Impulse);
+                    Destroy(other.gameObject, 0.5f);
+                }
+            break;
+
+            case "Damage":
+                if(!_ragdoll){
+                    GameManager.instance.PlayerLoseHealth();
+                }
+                
+            break;
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            GameManager.instance.PlayerLoseHealth();
-        }
+        
     }
 
     IEnumerator WaitToGetUp()

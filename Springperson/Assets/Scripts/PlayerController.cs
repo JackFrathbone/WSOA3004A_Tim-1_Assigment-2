@@ -23,37 +23,56 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float airDrag = 2f;
     [SerializeField] float playerHeight = 2f;
     [SerializeField] float jumpForce = 10f;
+    [SerializeField] float gravityScale = 1f;
+    Vector3 globalGravity;
     [Range(0, 1)] [SerializeField] float AirMoveNerf;
+    [Header("Ground Detection")]
+    [SerializeField] LayerMask groundMask;
+    [SerializeField] float groundDistance = 0.4f;
     bool isGrounded;
     RaycastHit slopeHit;
     Vector3 lastVelocity;
 
     Rigidbody rb;
+
+    public float GravityScale { get => gravityScale; set => gravityScale = value; }
+
     // Start is called before the first frame update
     void Start()
     {
+        globalGravity = Physics.gravity;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation= true;
+        //rb.useGravity = false;
     }
 
     
     // Update is called once per frame
     void Update()
     {
-
-
-       isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight/2 + 0.1f);
+       //isGrounded = Physics.CheckSphere(transform.position - new Vector3(0, 1, 0), groundDistance, groundMask);
+       Debug.Log(isGrounded);
        if(rb.velocity.magnitude > 0){
            lastVelocity = rb.velocity;
-       }
-       ControlDrag();
-       if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
+        }
+       
+       if(Input.GetKeyDown(KeyCode.Space) && isGrounded || Input.GetKeyDown(KeyCode.Space) && OnSlope()){
            Jump();
-       }
+        }
+
        myInput();
+       ControlDrag();
        slopeMoveDirection = Vector3.ProjectOnPlane(moveDirection, slopeHit.normal);
     }
+    void ApplyGravity(){
+        if(isGrounded || OnSlope()){
+            rb.AddForce(slopeHit.normal * Physics.gravity.magnitude, ForceMode.Acceleration);
 
+        }
+        else{
+            rb.AddForce(Physics.gravity, ForceMode.Acceleration);
+        }
+    }
     public Vector3 getLastVelocity(){
         return lastVelocity;
     }
@@ -69,6 +88,7 @@ public class PlayerController : MonoBehaviour
     bool OnSlope(){
         if(Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight / 2 + 0.5f)){
             if(slopeHit.normal != Vector3.up){
+                Debug.Log("on slope");
                 return true;
             }
             else{
@@ -81,8 +101,9 @@ public class PlayerController : MonoBehaviour
         horzMovement = Input.GetAxisRaw("Horizontal");
         vertMovement = Input.GetAxisRaw("Vertical");
         moveDirection = (orientation.transform.forward * vertMovement) + (orientation.transform.right * horzMovement);
-
+        
     }
+    
 
     public void Jump(){
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -91,7 +112,16 @@ public class PlayerController : MonoBehaviour
         rb.velocity = velocity;
     }
     private void FixedUpdate() {
+        
+        isGrounded = Physics.CheckSphere(transform.position - new Vector3(0, 1, 0), groundDistance, groundMask);
         Move();
+        
+        if(Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0 && isGrounded){
+            rb.velocity = Vector3.zero;
+        }
+        //ApplyGravity();
+        
+        
     }
     void Move(){
         if(isGrounded && !OnSlope()){
@@ -105,18 +135,23 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Hole")
         {
+            StopAllCoroutines();
             GameManager.instance.EndLevel();
         }
         else if(other.tag == "Projectile")
         {
-            Destroy(other.gameObject);
-            GameManager.instance.PlayerLoseHealth();
+            Projectile proj = other.gameObject.GetComponent<Projectile>();
+            if(!proj.Reversed){
+                Destroy(other.gameObject);
+                GameManager.instance.PlayerLoseHealth();
+            }
+            
         }
     }
+    
 
 }

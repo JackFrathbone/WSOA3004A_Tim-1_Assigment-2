@@ -6,16 +6,20 @@ public class SpringTrigger : MonoBehaviour
 {
     [SerializeField] Weapon weapon;
     [SerializeField] Rigidbody playerRb;
-    [SerializeField] float springJumpForce = 100f; // jump force when player shoots ground
+    [SerializeField] float minSpringJumpForce = 40f; // minimum jump force when player shoots ground
+
+    [SerializeField] float maxSpringJumpForce = 50f; // jump force when player shoots ground
     [SerializeField] float enemyRecoilForce = 5f; // blow back force when player shoots an enemy
     [SerializeField] float wallJumpForce = 10f; // blow back force when player shoots wall
     [SerializeField] float enemyUpwardMod = 1f; //modifies the amount of updward force applied to enemies from spring
     [SerializeField] float maxEnemyHitForce = 10f; // force applied to enemies when colliding with spring
     [SerializeField] float minEnemyhitForce = 3f; // minimum force to be applied to enemy (must be lower than enemy hit force)
     [SerializeField] Transform back;
+    [SerializeField] PlayerController player;
 
 
     float enemyHitDiff;
+    float jumpDiff;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +27,8 @@ public class SpringTrigger : MonoBehaviour
             Debug.Log("enemy hit force higher than minimum");
         }
         enemyHitDiff = maxEnemyHitForce - minEnemyhitForce;
+        jumpDiff = maxSpringJumpForce - minEnemyhitForce;
+        
     }
 
     // Update is called once per frame
@@ -42,8 +48,12 @@ public class SpringTrigger : MonoBehaviour
         if(weapon.getFired() && weapon.getVelocity() > 0){
             switch(other.tag){
                     case "Ground":
-                    weapon.setCollided(true);
-                    playerRb.AddForce(dir * springJumpForce, ForceMode.Impulse);
+                    if(!weapon.collided){
+                        player.GravityScale = 1;
+                        weapon.setCollided(true);
+                        playerRb.AddForce(dir * (minSpringJumpForce + (jumpDiff * weapon.getVelocity())), ForceMode.Impulse);
+                    }
+                    
                     break;
 
                     case "Enemy":

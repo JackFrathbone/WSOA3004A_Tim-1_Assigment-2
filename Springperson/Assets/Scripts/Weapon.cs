@@ -35,7 +35,7 @@ public class Weapon : MonoBehaviour
     {
         
         //Debug.DrawRay(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, Color.red, 0.2f);
-        if(Input.GetMouseButtonDown(0) && extension == null){
+        if(Input.GetMouseButtonDown(0) && extension == null && !GameManager.instance.GameOver){
             extension = StartCoroutine(Extend(springSpd, range));
         }
     }
@@ -73,16 +73,6 @@ public class Weapon : MonoBehaviour
                 velocity = 0;
                 
                 break;
-            }
-            else if(collided){
-                fired = false;
-                collided = false;
-                amplitude = (springEnd.transform.position - startPos).magnitude;
-                time = period/4;
-                d = Mathf.Abs(amplitude * Mathf.Sin(w * time));
-                springEnd.transform.localPosition = startPos + Vector3.forward * d;
-                Debug.Log("Jump");
-                yield return new WaitForFixedUpdate();
             }
             else{
                 

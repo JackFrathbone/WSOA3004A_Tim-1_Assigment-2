@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2081998129246340178}
   - component: {fileID: -7955791501680505046}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ramp
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 5655112992230388168}
   - component: {fileID: 2740460886282425575}
   - component: {fileID: 1634317157815400743}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
