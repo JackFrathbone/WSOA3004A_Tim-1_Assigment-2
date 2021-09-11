@@ -21,7 +21,16 @@ public class Projectile : MonoBehaviour
     {
         
     }
-
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.name == "Spring End"){
+            Reverse();
+        }
+    }
     public void Reverse(){
         if((rb.velocity.magnitude > 0)){
             Vector3 velocity = rb.velocity;

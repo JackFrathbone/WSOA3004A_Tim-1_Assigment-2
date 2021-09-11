@@ -32,6 +32,9 @@ public class HeartCollectible : MonoBehaviour
                 if(GameManager.instance.PlayerHealth < 3){
                     GameManager.instance.PlayerAddHealth();
                     heartSpawner.Empty = true;
+                    if(GameManager.instance.PlayerHealth < 3){
+                        GameManager.instance.SpawnHeart(GameManager.instance.MaxHearts);
+                    }
                     Destroy(this.gameObject);
                 }
             break;

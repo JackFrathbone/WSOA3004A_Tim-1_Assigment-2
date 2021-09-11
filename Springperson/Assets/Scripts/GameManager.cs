@@ -17,6 +17,8 @@ public class GameManager : Singleton<GameManager>
     private bool _playerCanBeDamaged = true;
 
     //Determines the player invulnerability time after taking damage
+
+    [SerializeField] HeartSpawner [] hearts;
     [SerializeField] int playerNoDamageTime;
     [SerializeField] DamageIndicator damageIndicator;
     [SerializeField] PlayerScoreDisplay scoreDisplay;
@@ -24,8 +26,7 @@ public class GameManager : Singleton<GameManager>
     
     
 
-    [SerializeField] int maxHearts;
-    List<Image> _hearts = new List<Image>();
+    [SerializeField] int maxHearts = 1;
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] Image heartImage;
 
@@ -42,7 +43,13 @@ public class GameManager : Singleton<GameManager>
     public bool IsInvincible { get => isInvincible; set => isInvincible = value; }
     public bool GameOver { get => gameOver; set => gameOver = value; }
     public int PlayerHealth { get => _playerHealth; set => _playerHealth = value; }
+    public int MaxHearts { get => maxHearts; set => maxHearts = value; }
 
+    private void Update() {
+        if(_playerHealth < 3){
+            SpawnHeart(maxHearts);
+        }
+    }
     void Start()
     {
         //isInvincible = true;
@@ -60,6 +67,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (_playerCanBeDamaged)
         {
+            
             StartCoroutine(PlayerNoDamagePeriod());
             SoundBoard.instance.DamageSound();
             _playerHealth--;
@@ -98,6 +106,56 @@ public class GameManager : Singleton<GameManager>
     }
 
     //For when we add powerups
+
+
+    public void SpawnHeart(int num){
+        if(num > hearts.Length || SpawnedHearts() >= num){
+            Debug.Log("too many hearts");
+            return;
+        }
+        else{
+            if(_playerHealth < 3){
+                
+                if(num > 1){
+                    if(SpawnedHearts() < num){
+                        int random = Random.Range(0, hearts.Length);
+                        hearts[random].SpawnHeart();
+                    }
+                    
+                }
+                else{
+                    List<int> numbers = new List<int>();
+                    for(int loop = 0; loop < num; loop++){
+                        if(SpawnedHearts() >= num){
+                            return;
+                        }
+                        else{
+                            while(true){
+                                int random = Random.Range(0, hearts.Length);
+                                if(!numbers.Contains(random) && hearts[random].Empty){
+                                    hearts[random].SpawnHeart();
+                                    numbers.Add(random);
+                                    break;
+                                }
+                        
+                            }
+                        }
+                    
+                    }
+                }
+            }
+        }
+    }
+
+    public int SpawnedHearts(){
+        int count = 0;
+        for(int loop = 0; loop< hearts.Length; loop++){
+            if(!hearts[loop].Empty){
+                count++;
+            }
+        }
+        return count;
+    }
     public void PlayerAddHealth()
     {
         _playerHealth++;

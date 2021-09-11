@@ -127,5 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPt: {fileID: 172529613178395611}
   heart: {fileID: 1017216357566172921, guid: c9e45c0168816b84fa6d5c9ba971420b, type: 3}
-  spawnRate: 10
-  randomChance: 8
+  spawnRate: 3

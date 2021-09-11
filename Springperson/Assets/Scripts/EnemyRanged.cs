@@ -104,9 +104,11 @@ public class EnemyRanged : MonoBehaviour
                 }
             break;
 
-            case "Damage":
+            case "Player":
                 if(!_ragdoll){
-                    GameManager.instance.PlayerLoseHealth();
+                    if(other.gameObject.name != "Spring End"){
+                        GameManager.instance.PlayerLoseHealth();
+                    }
                 }
                 
             break;

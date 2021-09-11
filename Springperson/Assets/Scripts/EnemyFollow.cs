@@ -48,8 +48,11 @@ public class EnemyFollow : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         switch(other.tag){
-            case "Damage":
+            case "Player":
+            if(other.gameObject.name != "Spring End"){
                 GameManager.instance.PlayerLoseHealth();
+            }
+                
             break;
             case "Hole":
                 GameManager.instance.AddToScoreTotal(100);
