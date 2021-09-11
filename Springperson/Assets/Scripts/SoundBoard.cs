@@ -29,17 +29,39 @@ public class SoundBoard : Singleton<SoundBoard>
     {
         
     }
+    private void OnDisable() {
+        StopAllCoroutines();
+    }
     public void EnemyHitSound(){
-        enemySrc.clip = enemyHitSound;
-        enemySrc.Play();
+        if(enemySrc.isPlaying){
+            GameObject temp = new GameObject("Temp Source");
+            temp.transform.SetParent(enemySrc.gameObject.transform);
+            AudioSource newSrc = temp.AddComponent<AudioSource>();
+            StartCoroutine(PlayAndDestroy(newSrc, enemyHitSound));
+
+        }
+        else{
+            enemySrc.clip = enemyHitSound;
+            enemySrc.Play();
+        }
+        
     }
     public void SpringSound(){
         gunSrc.clip = springSound;
         gunSrc.Play();
     }
     public void ScoreUp(){
-        gameSrc.clip = scoreUp;
-        gameSrc.Play();
+        if(gameSrc.isPlaying){
+            GameObject temp = new GameObject("Temp Source");
+            temp.transform.SetParent(enemySrc.gameObject.transform);
+            AudioSource newSrc = temp.AddComponent<AudioSource>();
+            StartCoroutine(PlayAndDestroy(newSrc, scoreUp));
+        }
+        else{
+            gameSrc.clip = scoreUp;
+            gameSrc.Play();
+        }
+        
     }
 
     public void DeathSound(){
@@ -53,7 +75,23 @@ public class SoundBoard : Singleton<SoundBoard>
     }
 
     public void HealSound(){
-        gameSrc.clip = healUp;
-        gameSrc.Play();
+        playerSrc.clip = healUp;
+        playerSrc.Play();
+    }
+
+    IEnumerator PlayAndDestroy(AudioSource src, AudioClip clip){
+        src.clip = clip;
+        src.Play();
+        while(true){
+            if(!src.isPlaying){
+                Destroy(src.gameObject);
+                break;
+            }
+            else{
+                yield return null;
+            }
+
+        }
+
     }
 }

@@ -33,6 +33,7 @@ public class Projectile : MonoBehaviour
     }
     public void Reverse(){
         if((rb.velocity.magnitude > 0)){
+            reversed = true;
             Vector3 velocity = rb.velocity;
             velocity *= -1;
             rb.velocity = velocity;

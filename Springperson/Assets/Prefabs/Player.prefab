@@ -354,10 +354,11 @@ MonoBehaviour:
   enemyRecoilForce: 15
   wallJumpForce: 10
   enemyUpwardMod: 1
+  headUpMod: 2
   maxEnemyHitForce: 10
   minEnemyhitForce: 10
   back: {fileID: 4270064908928821525}
-  player: {fileID: 0}
+  player: {fileID: 20531513527990988}
 --- !u!1 &20531514033914052
 GameObject:
   m_ObjectHideFlags: 0

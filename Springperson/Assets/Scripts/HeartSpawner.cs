@@ -6,7 +6,7 @@ public class HeartSpawner : MonoBehaviour
 {
     [SerializeField] Transform spawnPt;
     [SerializeField] GameObject heart;
-    [SerializeField] float spawnRate = 3; // delay between spawning new hearts in seconds
+    [SerializeField] float spawnDelay = 3; // delay between spawning new hearts in seconds
 
     bool empty;
 
@@ -29,17 +29,18 @@ public class HeartSpawner : MonoBehaviour
         StopAllCoroutines();
     }
     private void OnEnable() {
-        //StartCoroutine(SpawnHearts(spawnRate));
+        //StartCoroutine(SpawnHearts(spawnDelay));
     }
     public void SpawnHeart(){
-        StartCoroutine(SpawnDelay(spawnRate));
+        empty = false;
+        StartCoroutine(SpawnDelay(spawnDelay));
     }
 
     IEnumerator SpawnDelay(float time){
         GameObject go = Instantiate(heart, spawnPt.position, Quaternion.identity);
         HeartCollectible heartCollectible = go.GetComponent<HeartCollectible>();
         heartCollectible.HeartSpawner = GetComponent<HeartSpawner>();
-        empty = false;
+        //empty = false;
         yield return new WaitForSeconds(time);
     }
     

@@ -26,11 +26,9 @@ public class GameManager : Singleton<GameManager>
     
     
 
-    [SerializeField] int maxHearts = 1;
+    [SerializeField] int maxHearts = 1; // maximum number of hearts which may be spawned at one time
     [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] Image heartImage;
 
-    [SerializeField] GameObject healthDisplay;
     [SerializeField] GameObject restartScreen;
     [SerializeField] TextMeshProUGUI endScoreText;
     [SerializeField] TextMeshProUGUI highscoreText;
@@ -46,9 +44,7 @@ public class GameManager : Singleton<GameManager>
     public int MaxHearts { get => maxHearts; set => maxHearts = value; }
 
     private void Update() {
-        if(_playerHealth < 3){
-            SpawnHeart(maxHearts);
-        }
+        
     }
     void Start()
     {
@@ -67,7 +63,9 @@ public class GameManager : Singleton<GameManager>
     {
         if (_playerCanBeDamaged)
         {
-            
+            if(CheckSpawnedHearts() == 0){
+                SpawnHeart(maxHearts);
+            }
             StartCoroutine(PlayerNoDamagePeriod());
             SoundBoard.instance.DamageSound();
             _playerHealth--;
@@ -108,25 +106,26 @@ public class GameManager : Singleton<GameManager>
     //For when we add powerups
 
 
+
     public void SpawnHeart(int num){
-        if(num > hearts.Length || SpawnedHearts() >= num){
+        if(num > hearts.Length || CheckSpawnedHearts() >= num){
             Debug.Log("too many hearts");
             return;
         }
         else{
             if(_playerHealth < 3){
                 
-                if(num > 1){
-                    if(SpawnedHearts() < num){
+                if(num == 1){
+                    if(CheckSpawnedHearts() < num){
                         int random = Random.Range(0, hearts.Length);
                         hearts[random].SpawnHeart();
                     }
                     
                 }
-                else{
+                else if(num > 1){
                     List<int> numbers = new List<int>();
                     for(int loop = 0; loop < num; loop++){
-                        if(SpawnedHearts() >= num){
+                        if(CheckSpawnedHearts() >= num){
                             return;
                         }
                         else{
@@ -147,7 +146,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public int SpawnedHearts(){
+    public int CheckSpawnedHearts(){
         int count = 0;
         for(int loop = 0; loop< hearts.Length; loop++){
             if(!hearts[loop].Empty){

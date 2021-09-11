@@ -15,7 +15,7 @@ public class SpringTrigger : MonoBehaviour
     [SerializeField] float maxEnemyHitForce = 10f; // force applied to enemies when colliding with spring
     [SerializeField] float minEnemyhitForce = 3f; // minimum force to be applied to enemy (must be lower than enemy hit force)
     [SerializeField] Transform back;
-    [SerializeField] PlayerController player;
+    
 
 
     float enemyHitDiff;
@@ -49,7 +49,6 @@ public class SpringTrigger : MonoBehaviour
             switch(other.tag){
                     case "Ground":
                     if(!weapon.collided){
-                        player.GravityScale = 1;
                         weapon.setCollided(true);
                         playerRb.AddForce(dir * (minSpringJumpForce + (jumpDiff * weapon.getVelocity())), ForceMode.Impulse);
                     }
@@ -70,7 +69,8 @@ public class SpringTrigger : MonoBehaviour
               
                     playerRb.AddForce(dir * enemyRecoilForce, ForceMode.Impulse);
                     Rigidbody enemyRb = other.GetComponent<Rigidbody>();
-                    Vector3 enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
+                    Vector3 enemyDir = Vector3.one;
+                    enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
                     enemyRb.AddForce(enemyDir * (minEnemyhitForce + (enemyHitDiff*weapon.getVelocity())), ForceMode.Impulse);
                     weapon.setCollided(true);
                     

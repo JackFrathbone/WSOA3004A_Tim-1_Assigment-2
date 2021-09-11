@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float airDrag = 2f;
     [SerializeField] float playerHeight = 2f;
     [SerializeField] float jumpForce = 10f;
-    [SerializeField] float gravityScale = 1f;
     Vector3 globalGravity;
     [Range(0, 1)] [SerializeField] float AirMoveNerf;
     [Header("Ground Detection")]
@@ -35,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb;
 
-    public float GravityScale { get => gravityScale; set => gravityScale = value; }
+    
 
     // Start is called before the first frame update
     void Start()

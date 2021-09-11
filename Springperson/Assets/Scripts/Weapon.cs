@@ -29,7 +29,9 @@ public class Weapon : MonoBehaviour
         fired = false;
   
     }
-
+    private void OnDisable() {
+        StopAllCoroutines();
+    }
     // Update is called once per frame
     void Update()
     {
