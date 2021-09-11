@@ -33,17 +33,9 @@ public class SoundBoard : Singleton<SoundBoard>
         StopAllCoroutines();
     }
     public void EnemyHitSound(){
-        if(enemySrc.isPlaying){
-            GameObject temp = new GameObject("Temp Source");
-            temp.transform.SetParent(enemySrc.gameObject.transform);
-            AudioSource newSrc = temp.AddComponent<AudioSource>();
-            StartCoroutine(PlayAndDestroy(newSrc, enemyHitSound));
-
-        }
-        else{
-            enemySrc.clip = enemyHitSound;
-            enemySrc.Play();
-        }
+        enemySrc.clip = enemyHitSound;
+        enemySrc.Play();
+        
         
     }
     public void SpringSound(){
@@ -51,16 +43,8 @@ public class SoundBoard : Singleton<SoundBoard>
         gunSrc.Play();
     }
     public void ScoreUp(){
-        if(gameSrc.isPlaying){
-            GameObject temp = new GameObject("Temp Source");
-            temp.transform.SetParent(enemySrc.gameObject.transform);
-            AudioSource newSrc = temp.AddComponent<AudioSource>();
-            StartCoroutine(PlayAndDestroy(newSrc, scoreUp));
-        }
-        else{
-            gameSrc.clip = scoreUp;
-            gameSrc.Play();
-        }
+        gameSrc.clip = scoreUp;
+        gameSrc.Play();
         
     }
 

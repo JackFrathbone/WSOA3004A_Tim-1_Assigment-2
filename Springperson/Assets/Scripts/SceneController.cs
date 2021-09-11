@@ -28,4 +28,8 @@ public class SceneController : Singleton<SceneController>
     public void Menu(){
         SceneManager.LoadScene("Menu");
     }
+
+    public void Tutorial(){
+        SceneManager.LoadScene("Tutorial");
+    }
 }
