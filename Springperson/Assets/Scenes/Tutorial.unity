@@ -1219,8 +1219,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000022888, y: -0.000015259}
-  m_SizeDelta: {x: 1340.126, y: 281}
+  m_AnchoredPosition: {x: 0.000022888, y: -41.105}
+  m_SizeDelta: {x: 1478.7585, y: 432.0103}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1470213071
 MonoBehaviour:
@@ -1247,7 +1247,12 @@ MonoBehaviour:
     - fire your spring with left click
 
     -
-    kill enemies by launching them off the edge'
+    kill enemies by launching them off the edge
+
+    - Fire at the ground for big
+    jumps
+
+    - Jump with the spacebar '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9213fe10e7bb4194b877592f1df98d9c, type: 2}
   m_sharedMaterial: {fileID: 451500034498114424, guid: 9213fe10e7bb4194b877592f1df98d9c, type: 2}
@@ -1274,7 +1279,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64.65
+  m_fontSize: 67
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
