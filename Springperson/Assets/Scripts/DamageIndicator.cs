@@ -9,17 +9,15 @@ public class DamageIndicator : MonoBehaviour
     [SerializeField] Image blood;
     [SerializeField] Image red;
     [SerializeField] Image healthUp;
+    [SerializeField] Image powerUp;
 
-    [Header("Powerup Images")]
-    [SerializeField] Image firstStage;
-    [SerializeField] Image secondStage;
-    [SerializeField] Image finalStage;
 
     [Header("Max Alphas")]
     [Range(0, 1)] [SerializeField] float maxBloodAlpha = 1;
     [Range(0, 1)] [SerializeField] float maxRedAlpha = 1;
 
     [Range(0, 1)] [SerializeField] float maxHealthAlpha = 0.43f;
+    [Range(0, 1)] [SerializeField] float maxPowerUpAlpha = 0.8f;
     [SerializeField] float time = 1f;
 
 
@@ -32,6 +30,7 @@ public class DamageIndicator : MonoBehaviour
         blood.gameObject.SetActive(false);
         red.gameObject.SetActive(false);
         healthUp.gameObject.SetActive(false);
+        powerUp.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,6 +55,10 @@ public class DamageIndicator : MonoBehaviour
         StartCoroutine(HealthUp(time));
     }
 
+    public void IndicatePowerUp(){
+        StartCoroutine(PowerUp(time));
+    }
+
 
 
     IEnumerator HealthUp(float period){
@@ -73,6 +76,26 @@ public class DamageIndicator : MonoBehaviour
             }
             else{
                 ChangeAlpha(alpha * maxHealthAlpha, healthUp);
+                yield return new WaitForFixedUpdate();
+            }
+        }
+    }
+
+    IEnumerator PowerUp(float period){
+        powerUp.gameObject.SetActive(true);
+        float time = 0;
+        float w = (1/period) * 2 * Mathf.PI;
+        while(true){
+            time += Time.fixedDeltaTime;
+            float alpha = Mathf.Sin(w * time);
+            
+            if(time >= period/2){
+                ChangeAlpha(0, powerUp);
+                powerUp.gameObject.SetActive(false);
+                break;
+            }
+            else{
+                ChangeAlpha(alpha * maxPowerUpAlpha, powerUp);
                 yield return new WaitForFixedUpdate();
             }
         }

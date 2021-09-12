@@ -24,21 +24,6 @@ public class InvicibleBarrier : MonoBehaviour
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other)
     {
-        switch(other.tag){
-            case "Enemy":
-                if(GameManager.instance.IsInvincible){
-                    Vector3 playerDir = player.getLastVelocity().normalized;
-                    Rigidbody enemyRb = other.GetComponent<Rigidbody>();
-                    Vector3 enemyDir = enemyRb.velocity.normalized;
-                    other.GetComponent<EnemyFollow>().TurnOnRagdoll();
-                    enemyRb.AddForce(playerDir * enemyHitPower, ForceMode.Impulse);
-                    Debug.Log("invicible vince armour");
-                    
-                }
-                else{
-
-                }
-            break;
-        }
+        
     }
 }

@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
+  moveSpeedPowerUp: 11
   moveMultiplier: 10
   airMoveMultiplier: 5
   mouseSensitivity: 5
@@ -74,7 +75,6 @@ MonoBehaviour:
   airDrag: 1
   playerHeight: 2
   jumpForce: 25
-  gravityScale: 1
   AirMoveNerf: 0
   groundMask:
     serializedVersion: 2
@@ -354,11 +354,11 @@ MonoBehaviour:
   enemyRecoilForce: 15
   wallJumpForce: 10
   enemyUpwardMod: 1
-  headUpMod: 2
   maxEnemyHitForce: 10
   minEnemyhitForce: 10
+  maxEnemyHitForcePowerUp: 15
+  minEnemyHitForcePowerUp: 15
   back: {fileID: 4270064908928821525}
-  player: {fileID: 20531513527990988}
 --- !u!1 &20531514033914052
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +404,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 8
+  rangePowerUp: 11
   springSpd: 1
+  springSpdPowerUp: 0.7
   fwdPt: {fileID: 20531515307262395}
   backPt: {fileID: 4270064908928821525}
   playerRb: {fileID: 20531513527990991}

@@ -14,12 +14,16 @@ public class SpringTrigger : MonoBehaviour
     [SerializeField] float enemyUpwardMod = 1f; //modifies the amount of updward force applied to enemies from spring
     [SerializeField] float maxEnemyHitForce = 10f; // force applied to enemies when colliding with spring
     [SerializeField] float minEnemyhitForce = 3f; // minimum force to be applied to enemy (must be lower than enemy hit force)
+    [SerializeField] float maxEnemyHitForcePowerUp = 15f;
+    [SerializeField] float minEnemyHitForcePowerUp = 15f;
+
     [SerializeField] Transform back;
     
 
 
     float enemyHitDiff;
     float jumpDiff;
+    float enemyHitDiffPowerUp;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +32,7 @@ public class SpringTrigger : MonoBehaviour
         }
         enemyHitDiff = maxEnemyHitForce - minEnemyhitForce;
         jumpDiff = maxSpringJumpForce - minEnemyhitForce;
+        enemyHitDiffPowerUp = maxEnemyHitForcePowerUp - minEnemyHitForcePowerUp;
         
     }
 
@@ -72,7 +77,13 @@ public class SpringTrigger : MonoBehaviour
                     Rigidbody enemyRb = other.GetComponent<Rigidbody>();
                     Vector3 enemyDir = Vector3.one;
                     enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
-                    enemyRb.AddForce(enemyDir * (minEnemyhitForce + (enemyHitDiff*weapon.getVelocity())), ForceMode.Impulse);
+                    if(GameManager.instance.IsPoweredUp){
+                        enemyRb.AddForce(enemyDir * (minEnemyHitForcePowerUp + (enemyHitDiffPowerUp*weapon.getVelocity())), ForceMode.Impulse);
+                    }
+                    else{
+                        enemyRb.AddForce(enemyDir * (minEnemyhitForce + (enemyHitDiff*weapon.getVelocity())), ForceMode.Impulse);
+                    }
+                    
                     weapon.setCollided(true);
 
                     

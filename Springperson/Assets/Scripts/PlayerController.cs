@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement Constants")]
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float moveSpeedPowerUp = 8f;
     [SerializeField] float moveMultiplier = 10f;
     [SerializeField] float airMoveMultiplier = 5f;
     [SerializeField] public float mouseSensitivity = 5f;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     Vector3 lastVelocity;
 
     Rigidbody rb;
+    float basicMoveSpd;
 
     
 
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation= true;
         //rb.useGravity = false;
+        basicMoveSpd = moveSpeed;
     }
 
     
@@ -124,6 +127,14 @@ public class PlayerController : MonoBehaviour
         
     }
     void Move(){
+
+        if(GameManager.instance.IsPoweredUp){
+            moveSpeed = moveSpeedPowerUp;
+        }
+        else{
+            moveSpeed = basicMoveSpd;
+        }
+
         if(isGrounded && !OnSlope()){
             rb.AddForce(moveDirection.normalized * moveSpeed * moveMultiplier, ForceMode.Acceleration);
         }
@@ -145,7 +156,7 @@ public class PlayerController : MonoBehaviour
         else if(other.tag == "Projectile")
         {
             Projectile proj = other.gameObject.GetComponent<Projectile>();
-            if(!proj.Reversed){
+            if(!proj.Reversed && !GameManager.instance.IsPoweredUp){
                 Destroy(other.gameObject);
                 GameManager.instance.PlayerLoseHealth();
             }

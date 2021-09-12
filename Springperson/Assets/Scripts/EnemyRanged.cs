@@ -106,7 +106,7 @@ public class EnemyRanged : MonoBehaviour
 
             case "Player":
                 if(!_ragdoll){
-                    if(other.gameObject.name != "Spring End"){
+                    if(other.gameObject.name != "Spring End" && !GameManager.instance.IsPoweredUp){
                         GameManager.instance.PlayerLoseHealth();
                     }
                 }

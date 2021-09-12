@@ -49,7 +49,7 @@ public class EnemyFollow : MonoBehaviour
     {
         switch(other.tag){
             case "Player":
-            if(other.gameObject.name != "Spring End"){
+            if(other.gameObject.name != "Spring End" && !GameManager.instance.IsPoweredUp){
                 GameManager.instance.PlayerLoseHealth();
             }
                 

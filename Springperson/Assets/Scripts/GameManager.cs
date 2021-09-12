@@ -26,6 +26,9 @@ public class GameManager : Singleton<GameManager>
     
     
 
+    [SerializeField] float powerUpTime = 10f;
+    [SerializeField] float PowerUpSpawnFrequency = 30f;
+    [SerializeField] float powerUpChance = 10;
     [SerializeField] int maxHearts = 1; // maximum number of hearts which may be spawned at one time
     [SerializeField] TextMeshProUGUI scoreText;
 
@@ -34,11 +37,13 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] TextMeshProUGUI highscoreText;
 
     [SerializeField] CameraController cameraController;
+    
 
-    bool isInvincible;
+    bool isPoweredUp;
     bool gameOver;
+    float time;
 
-    public bool IsInvincible { get => isInvincible; set => isInvincible = value; }
+    public bool IsPoweredUp { get => isPoweredUp; set => isPoweredUp = value; }
     public bool GameOver { get => gameOver; set => gameOver = value; }
     public int PlayerHealth { get => _playerHealth; set => _playerHealth = value; }
     public int MaxHearts { get => maxHearts; set => maxHearts = value; }
@@ -48,7 +53,9 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
-        //isInvincible = true;
+        time = 0;
+        isPoweredUp = false;
+        //isPoweredUp = true;
         gameOver = false;
     }
     public void AddToScoreTotal(int i)
@@ -105,7 +112,27 @@ public class GameManager : Singleton<GameManager>
 
     //For when we add powerups
 
+    public void SpawnPowerUp(){
+        if(CheckSpawnedHearts() == hearts.Length){
+            return;
+        }
+        if(!isPoweredUp && CheckSpawnedPowerUps() == 0){
+            int random = (int) Random.Range(0, powerUpChance);
+            if(random == 0){
+                while(true){
 
+                    int spawner = (int) Random.Range(0, hearts.Length);
+                    if(hearts[spawner].Empty){
+                        hearts[spawner].SpawnPowerUp();
+                        break;
+                    }
+                }
+                
+                
+            }
+
+        }
+    }
 
     public void SpawnHeart(int num){
         if(num > hearts.Length || CheckSpawnedHearts() >= num){
@@ -155,6 +182,15 @@ public class GameManager : Singleton<GameManager>
         }
         return count;
     }
+    public int CheckSpawnedPowerUps(){
+        int count = 0;
+        for(int loop = 0; loop< hearts.Length; loop++){
+            if(!hearts[loop].Empty && hearts[loop].PowerUpSpawned){
+                count++;
+            }
+        }
+        return count;
+    }
     public void PlayerAddHealth()
     {
         _playerHealth++;
@@ -192,6 +228,7 @@ public class GameManager : Singleton<GameManager>
         endScoreText.text = playerScore.ToString();
         cameraController.DisableCameraControl();
         Time.timeScale = 0f;
+        StopAllCoroutines();
 
         //For setting the highscore, uses Playerprefs
         if (PlayerPrefs.HasKey("Highscore"))
@@ -220,5 +257,25 @@ public class GameManager : Singleton<GameManager>
         _playerCanBeDamaged = false;
         yield return new WaitForSeconds(playerNoDamageTime);
         _playerCanBeDamaged = true;
+    }
+
+    public void StartPowerUp(){
+        StartCoroutine(PowerUpPlayer(powerUpTime));
+    }
+
+    IEnumerator PowerUpPlayer(float time){
+        isPoweredUp = true;
+        damageIndicator.IndicatePowerUp();
+        float t = 0;
+        while(true){
+            t += Time.deltaTime;
+            if(t >= time){
+                break;
+            }
+            else{
+                isPoweredUp = false;
+                yield return null;
+            }
+        }
     }
 }

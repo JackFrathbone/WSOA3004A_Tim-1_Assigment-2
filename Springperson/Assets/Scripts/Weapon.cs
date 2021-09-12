@@ -6,7 +6,9 @@ public class Weapon : MonoBehaviour
 {
     [Header("Spring Force Constants")]
     [SerializeField] float range;
-    [SerializeField] float springSpd;
+    [SerializeField] float rangePowerUp;
+    [SerializeField] float springSpd = 0.6f;
+    [SerializeField] float springSpdPowerUp;
 
     [SerializeField] Transform fwdPt;
     [SerializeField] Transform backPt;
@@ -20,6 +22,8 @@ public class Weapon : MonoBehaviour
     float velocity;
     Coroutine extension = null;
     [SerializeField] Vector3 sphereCastOffset = new Vector3(0,1,0);
+
+
     
 
     // Start is called before the first frame update
@@ -38,7 +42,13 @@ public class Weapon : MonoBehaviour
         
         //Debug.DrawRay(springEnd.transform.position, (fwdPt.position - springEnd.transform.position).normalized, Color.red, 0.2f);
         if(Input.GetMouseButtonDown(0) && extension == null && !GameManager.instance.GameOver){
-            extension = StartCoroutine(Extend(springSpd, range));
+            if(GameManager.instance.IsPoweredUp){
+                extension = StartCoroutine(Extend(springSpdPowerUp, rangePowerUp));
+            }
+            else{
+                extension = StartCoroutine(Extend(springSpd, range));
+            }
+            
         }
     }
 
