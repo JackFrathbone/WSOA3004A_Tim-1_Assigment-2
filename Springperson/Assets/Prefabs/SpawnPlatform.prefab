@@ -142,5 +142,5 @@ MonoBehaviour:
   enemyPrefabBasic: {fileID: 8458781814643003700, guid: 72d978b867eb5a147927457c132b4953, type: 3}
   enemyPrefabRanged: {fileID: 8458781814643003700, guid: d1b2da541b0d69442aee76a4117b42de, type: 3}
   spawnPoint: {fileID: 6423729703110476580}
-  randomMin: 5
+  randomMin: 10
   randomMax: 25

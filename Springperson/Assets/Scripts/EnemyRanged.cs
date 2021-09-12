@@ -89,6 +89,7 @@ public class EnemyRanged : MonoBehaviour
         
         switch(other.tag){
             case "Hole":
+                GameManager.instance.currentEnemy--;
                 GameManager.instance.AddToScoreTotal(200);
                 StopAllCoroutines();
                 Destroy(gameObject);

@@ -49,12 +49,18 @@ public class EnemyFollow : MonoBehaviour
     {
         switch(other.tag){
             case "Player":
+<<<<<<< Updated upstream
             if(other.gameObject.name != "Spring End" && !GameManager.instance.IsPoweredUp){
+=======
+            if(other.gameObject.name != "Spring End" && !_ragDoll)
+                {
+>>>>>>> Stashed changes
                 GameManager.instance.PlayerLoseHealth();
             }
                 
             break;
             case "Hole":
+                GameManager.instance.currentEnemy--;
                 GameManager.instance.AddToScoreTotal(100);
                 StopAllCoroutines();
                 Destroy(gameObject);

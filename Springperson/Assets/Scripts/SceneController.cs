@@ -29,6 +29,11 @@ public class SceneController : Singleton<SceneController>
         SceneManager.LoadScene("Menu");
     }
 
+    public void Credits()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+
     public void Tutorial(){
         SceneManager.LoadScene("Tutorial");
     }

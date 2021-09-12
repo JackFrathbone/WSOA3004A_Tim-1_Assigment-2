@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
                 Instantiate(enemyPrefabRanged, spawnPoint.position, Quaternion.identity);
             }
 
+            GameManager.instance.currentEnemy++;
         }
         StartCoroutine(WaitAndSpawn());
     }
