@@ -17,6 +17,9 @@ public class SoundBoard : Singleton<SoundBoard>
     [SerializeField] AudioClip takeDamage;
     [SerializeField] AudioClip healUp;
     [SerializeField] AudioClip death;
+    [SerializeField] AudioClip springJump;
+    [SerializeField] AudioClip jump;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -42,6 +45,11 @@ public class SoundBoard : Singleton<SoundBoard>
         gunSrc.clip = springSound;
         gunSrc.Play();
     }
+
+    public void SpringJump(){
+        gunSrc.clip = springJump;
+        gunSrc.Play();
+    }
     public void ScoreUp(){
         gameSrc.clip = scoreUp;
         gameSrc.Play();
@@ -60,6 +68,10 @@ public class SoundBoard : Singleton<SoundBoard>
 
     public void HealSound(){
         playerSrc.clip = healUp;
+        playerSrc.Play();
+    }
+    public void JumpSound(){
+        playerSrc.clip = jump;
         playerSrc.Play();
     }
 

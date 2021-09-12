@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
     
 
     public void Jump(){
+        SoundBoard.instance.JumpSound();
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         Vector3 velocity = rb.velocity;
         velocity *= AirMoveNerf;

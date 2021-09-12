@@ -49,6 +49,7 @@ public class SpringTrigger : MonoBehaviour
             switch(other.tag){
                     case "Ground":
                     if(!weapon.collided){
+                        SoundBoard.instance.SpringJump();
                         weapon.setCollided(true);
                         playerRb.AddForce(dir * (minSpringJumpForce + (jumpDiff * weapon.getVelocity())), ForceMode.Impulse);
                     }
@@ -73,6 +74,7 @@ public class SpringTrigger : MonoBehaviour
                     enemyDir = (-1*dir) + (Vector3.up * enemyUpwardMod);
                     enemyRb.AddForce(enemyDir * (minEnemyhitForce + (enemyHitDiff*weapon.getVelocity())), ForceMode.Impulse);
                     weapon.setCollided(true);
+
                     
                     break;
 

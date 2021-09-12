@@ -9,6 +9,12 @@ public class DamageIndicator : MonoBehaviour
     [SerializeField] Image blood;
     [SerializeField] Image red;
     [SerializeField] Image healthUp;
+
+    [Header("Powerup Images")]
+    [SerializeField] Image firstStage;
+    [SerializeField] Image secondStage;
+    [SerializeField] Image finalStage;
+
     [Header("Max Alphas")]
     [Range(0, 1)] [SerializeField] float maxBloodAlpha = 1;
     [Range(0, 1)] [SerializeField] float maxRedAlpha = 1;
@@ -95,4 +101,6 @@ public class DamageIndicator : MonoBehaviour
             }
         }
     }
+
+    
 }
