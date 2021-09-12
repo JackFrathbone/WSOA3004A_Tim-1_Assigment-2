@@ -26,7 +26,7 @@ public class EnemyFollow : MonoBehaviour
             _navMeshAgent.SetDestination(_player.transform.position);
         }
         //transform.rotation = Quaternion.LookRotation(_player.transform.position);
-        
+
     }
 
     //Lets the enemy roll around without control
@@ -47,36 +47,38 @@ public class EnemyFollow : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        switch(other.tag){
+        switch (other.tag)
+        {
             case "Player":
-<<<<<<< Updated upstream
-            if(other.gameObject.name != "Spring End" && !GameManager.instance.IsPoweredUp){
-=======
-            if(other.gameObject.name != "Spring End" && !_ragDoll)
+                if (other.gameObject.name != "Spring End" && !GameManager.instance.IsPoweredUp)
                 {
->>>>>>> Stashed changes
-                GameManager.instance.PlayerLoseHealth();
-            }
-                
-            break;
+
+                    if (other.gameObject.name != "Spring End" && !_ragDoll)
+                    {
+
+                        GameManager.instance.PlayerLoseHealth();
+                    }
+                }
+                break;
             case "Hole":
                 GameManager.instance.currentEnemy--;
                 GameManager.instance.AddToScoreTotal(100);
                 StopAllCoroutines();
                 Destroy(gameObject);
-            break;
+                break;
 
             case "Projectile":
                 Rigidbody projRb = other.gameObject.GetComponent<Rigidbody>();
                 Projectile proj = other.gameObject.GetComponent<Projectile>();
-                if(proj.Reversed){
+                if (proj.Reversed)
+                {
                     TurnOnRagdoll();
                     SoundBoard.instance.EnemyHitSound();
                     _rb.AddForce(projRb.velocity.normalized * projectileForce, ForceMode.Impulse);
                     Destroy(other.gameObject, 0.5f);
                 }
-                
-            break;
+
+                break;
         }
     }
 
@@ -84,16 +86,16 @@ public class EnemyFollow : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" && !_ragDoll)
         {
-            
+
         }
     }
-    
+
 
     IEnumerator WaitToGetUp()
     {
         yield return new WaitForSeconds(3f);
 
-        if(_rb.velocity.magnitude < 0.5f)
+        if (_rb.velocity.magnitude < 0.5f)
         {
             TurnOffRagdoll();
         }
