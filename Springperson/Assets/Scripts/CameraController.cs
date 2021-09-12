@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraController : MonoBehaviour
 {
@@ -34,6 +35,15 @@ public class CameraController : MonoBehaviour
             myInput();
             cam.transform.localRotation = Quaternion.Euler(xRot, yRot, 0);
             orientation.transform.rotation = Quaternion.Euler(0, yRot, 0);
+        }
+
+        //Putting this here now because cant put an update on a singleton manager
+        //Just loads the main menu if escape is pressed
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            SceneManager.LoadScene(0);
         }
     }
 

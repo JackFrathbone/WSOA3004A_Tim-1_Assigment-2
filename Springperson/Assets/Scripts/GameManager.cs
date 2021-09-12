@@ -58,6 +58,7 @@ public class GameManager : Singleton<GameManager>
         //isPoweredUp = true;
         gameOver = false;
     }
+
     public void AddToScoreTotal(int i)
     {
         playerScore += i;

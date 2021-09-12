@@ -54,7 +54,7 @@ public class SpringTrigger : MonoBehaviour
             switch(other.tag){
                     case "Ground":
                     if(!weapon.collided){
-                        SoundBoard.instance.SpringJump();
+                        //SoundBoard.instance.SpringJump();
                         weapon.setCollided(true);
                         playerRb.AddForce(dir * (minSpringJumpForce + (jumpDiff * weapon.getVelocity())), ForceMode.Impulse);
                     }

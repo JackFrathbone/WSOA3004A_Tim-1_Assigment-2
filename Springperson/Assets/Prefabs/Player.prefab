@@ -66,16 +66,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
-  moveSpeedPowerUp: 11
+  moveSpeedPowerUp: 15
   moveMultiplier: 10
   airMoveMultiplier: 5
   mouseSensitivity: 5
   groundDrag: 6
   orientation: {fileID: 5216874516734186584}
-  airDrag: 1
+  airDrag: 2
   playerHeight: 2
-  jumpForce: 25
-  AirMoveNerf: 0
+  jumpForce: 30
+  AirMoveNerf: 0.123
   groundMask:
     serializedVersion: 2
     m_Bits: 64
@@ -349,13 +349,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 9216956615121807736}
   playerRb: {fileID: 20531513527990991}
-  minSpringJumpForce: 30
+  minSpringJumpForce: 40
   maxSpringJumpForce: 50
-  enemyRecoilForce: 15
+  enemyRecoilForce: 10
   wallJumpForce: 10
   enemyUpwardMod: 1
-  maxEnemyHitForce: 10
-  minEnemyhitForce: 10
+  maxEnemyHitForce: 8
+  minEnemyhitForce: 8
   maxEnemyHitForcePowerUp: 15
   minEnemyHitForcePowerUp: 15
   back: {fileID: 4270064908928821525}
